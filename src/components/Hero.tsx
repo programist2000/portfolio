@@ -1,12 +1,15 @@
 import { ArrowDown, Github, Linkedin, Twitter, Code2, Layers, Zap } from 'lucide-react'
+import { useI18n } from '../i18n/useI18n'
 
 const stats = [
-  { icon: Code2, value: '50+', label: 'Projects Built' },
-  { icon: Layers, value: '5+', label: 'Years Experience' },
-  { icon: Zap, value: '20+', label: 'Happy Clients' },
+  { icon: Code2 },
+  { icon: Layers },
+  { icon: Zap },
 ]
 
 export default function Hero() {
+  const { t } = useI18n()
+
   const scrollToProjects = () => {
     document.querySelector('#projects')?.scrollIntoView({ behavior: 'smooth' })
   }
@@ -97,7 +100,7 @@ export default function Hero() {
             >
               <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#22c55e', display: 'inline-block', boxShadow: '0 0 8px #22c55e' }} />
               <span style={{ fontFamily: 'var(--font-body)', fontSize: '0.8rem', color: 'var(--color-primary)', fontWeight: 500 }}>
-                Available for new projects
+                {t.hero.availability}
               </span>
             </div>
 
@@ -113,8 +116,8 @@ export default function Hero() {
                 color: 'var(--color-text)',
               }}
             >
-              Hi, I'm{' '}
-              <span className="gradient-text">Alex Johnson</span>
+              {t.hero.headingPrefix}{' '}
+              <span className="gradient-text">{t.profile.firstName} {t.profile.lastName}</span>
             </h1>
             <h2
               style={{
@@ -126,7 +129,7 @@ export default function Hero() {
                 letterSpacing: '-0.02em',
               }}
             >
-              Full Stack Developer & UI Engineer
+              {t.hero.role}
             </h2>
 
             <p
@@ -140,24 +143,23 @@ export default function Hero() {
                 marginBottom: '40px',
               }}
             >
-              I build high-performance web applications with beautiful interfaces and
-              solid architecture. Specializing in React, TypeScript, and modern full-stack solutions.
+              {t.hero.description}
             </p>
 
             {/* CTAs */}
             <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap', marginBottom: '56px' }}>
               <button className="btn-primary" onClick={scrollToProjects}>
-                View My Work
+                {t.hero.ctaWork}
                 <ArrowDown size={16} />
               </button>
               <button className="btn-outline" onClick={scrollToContact}>
-                Get In Touch
+                {t.hero.ctaContact}
               </button>
             </div>
 
             {/* Socials */}
             <div style={{ display: 'flex', gap: '16px', alignItems: 'center' }}>
-              <span style={{ color: 'var(--color-muted)', fontSize: '0.8rem', fontWeight: 500 }}>Follow me</span>
+              <span style={{ color: 'var(--color-muted)', fontSize: '0.8rem', fontWeight: 500 }}>{t.hero.followMe}</span>
               <div style={{ width: '32px', height: '1px', background: 'var(--color-border)' }} />
               {[
                 { icon: Github, href: 'https://github.com', label: 'GitHub' },
@@ -202,9 +204,9 @@ export default function Hero() {
 
           {/* Right: floating stat cards */}
           <div className="hero-stats" style={{ display: 'flex', flexDirection: 'column', gap: '16px', minWidth: '220px' }}>
-            {stats.map(({ icon: Icon, value, label }, i) => (
+            {stats.map(({ icon: Icon }, i) => (
               <div
-                key={label}
+                key={i}
                 className="glass-card animate-float"
                 style={{
                   padding: '20px 24px',
@@ -232,10 +234,10 @@ export default function Hero() {
                 </div>
                 <div>
                   <div style={{ fontFamily: 'var(--font-heading)', fontWeight: 700, fontSize: '1.5rem', color: 'var(--color-text)', lineHeight: 1 }}>
-                    {value}
+                    {t.hero.stats[i].value}
                   </div>
                   <div style={{ fontFamily: 'var(--font-body)', fontSize: '0.8rem', color: 'var(--color-muted)', marginTop: '4px' }}>
-                    {label}
+                    {t.hero.stats[i].label}
                   </div>
                 </div>
               </div>
@@ -262,7 +264,7 @@ export default function Hero() {
         }}
         onClick={scrollToProjects}
       >
-        <span>Scroll down</span>
+        <span>{t.hero.scrollDown}</span>
         <ArrowDown size={16} style={{ animation: 'float 2s ease-in-out infinite' }} />
       </div>
 

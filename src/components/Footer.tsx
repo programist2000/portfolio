@@ -1,4 +1,5 @@
 import { Github, Linkedin, Twitter, Heart } from 'lucide-react'
+import { useI18n } from '../i18n/useI18n'
 
 const socials = [
   { icon: Github, label: 'GitHub', href: 'https://github.com' },
@@ -6,14 +7,8 @@ const socials = [
   { icon: Twitter, label: 'Twitter', href: 'https://twitter.com' },
 ]
 
-const navLinks = [
-  { label: 'About', href: '#about' },
-  { label: 'Projects', href: '#projects' },
-  { label: 'Skills', href: '#skills' },
-  { label: 'Contact', href: '#contact' },
-]
-
 export default function Footer() {
+  const { t } = useI18n()
   const year = new Date().getFullYear()
 
   return (
@@ -28,13 +23,13 @@ export default function Footer() {
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '24px', marginBottom: '32px' }}>
           {/* Logo */}
           <div style={{ fontFamily: 'var(--font-heading)', fontWeight: 700, fontSize: '1.2rem', letterSpacing: '-0.02em' }}>
-            <span className="gradient-text">Alex</span>
-            <span style={{ color: 'var(--color-text)' }}>Johnson</span>
+            <span className="gradient-text">{t.profile.firstName}</span>
+            <span style={{ color: 'var(--color-text)' }}>{t.profile.lastName}</span>
           </div>
 
           {/* Nav */}
           <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', justifyContent: 'center' }}>
-            {navLinks.map((link) => (
+            {t.navLinks.map((link) => (
               <a
                 key={link.href}
                 href={link.href}
@@ -97,11 +92,11 @@ export default function Footer() {
         {/* Copyright */}
         <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '6px', flexWrap: 'wrap' }}>
           <span style={{ fontFamily: 'var(--font-body)', fontSize: '0.83rem', color: 'var(--color-muted)' }}>
-            © {year} Alex Johnson · Built with
+            Copyright {year} {t.profile.firstName} {t.profile.lastName}. {t.footer.builtWith}
           </span>
           <Heart size={13} color="#a78bfa" fill="#a78bfa" />
           <span style={{ fontFamily: 'var(--font-body)', fontSize: '0.83rem', color: 'var(--color-muted)' }}>
-            using React & Tailwind CSS
+            {t.footer.using}
           </span>
         </div>
       </div>

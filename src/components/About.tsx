@@ -1,11 +1,5 @@
 import { Download, MapPin, Coffee } from 'lucide-react'
-
-const highlights = [
-  'Building scalable web apps since 2019',
-  'Obsessed with clean code & great UX',
-  'Open-source contributor & tech blogger',
-  'Remote-friendly, timezone-flexible',
-]
+import { useI18n } from '../i18n/useI18n'
 
 const techCategories = [
   { label: 'React / Next.js', color: 'primary' },
@@ -19,6 +13,8 @@ const techCategories = [
 ]
 
 export default function About() {
+  const { t } = useI18n()
+
   return (
     <section id="about" style={{ padding: '120px 24px', position: 'relative' }}>
       {/* Section label */}
@@ -26,7 +22,7 @@ export default function About() {
         <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '16px' }}>
           <div style={{ width: '40px', height: '2px', background: 'var(--color-primary)' }} />
           <span style={{ color: 'var(--color-primary)', fontFamily: 'var(--font-heading)', fontWeight: 600, fontSize: '0.85rem', letterSpacing: '0.1em', textTransform: 'uppercase' }}>
-            About Me
+            {t.about.section}
           </span>
         </div>
 
@@ -34,23 +30,20 @@ export default function About() {
           {/* Left: Text */}
           <div>
             <h2 className="section-heading" style={{ marginBottom: '24px', color: 'var(--color-text)' }}>
-              Crafting digital experiences{' '}
-              <span className="gradient-text">that matter</span>
+              {t.about.headingStart}{' '}
+              <span className="gradient-text">{t.about.headingAccent}</span>
             </h2>
 
             <p style={{ fontFamily: 'var(--font-body)', fontWeight: 300, fontSize: '1.05rem', lineHeight: 1.8, color: 'var(--color-muted)', marginBottom: '20px' }}>
-              I'm a full-stack developer based in Berlin with a passion for turning complex problems
-              into elegant, user-friendly solutions. I specialize in React and TypeScript on the frontend
-              and Node.js / Python on the backend.
+              {t.about.paragraph1}
             </p>
             <p style={{ fontFamily: 'var(--font-body)', fontWeight: 300, fontSize: '1.05rem', lineHeight: 1.8, color: 'var(--color-muted)', marginBottom: '36px' }}>
-              Whether it's a high-scale SaaS platform or a pixel-perfect landing page, I bring the same
-              level of care and craftsmanship to every project.
+              {t.about.paragraph2}
             </p>
 
             {/* Highlights */}
             <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginBottom: '36px' }}>
-              {highlights.map((item) => (
+              {t.about.highlights.map((item) => (
                 <div key={item} style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
                   <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: 'var(--color-primary)', flexShrink: 0 }} />
                   <span style={{ fontFamily: 'var(--font-body)', fontSize: '0.95rem', color: 'var(--color-muted)' }}>{item}</span>
@@ -88,7 +81,7 @@ export default function About() {
               style={{ display: 'inline-flex' }}
             >
               <Download size={16} />
-              Download Resume
+              {t.about.downloadResume}
             </a>
           </div>
 
@@ -110,7 +103,7 @@ export default function About() {
             >
               <img
               src="https://picsum.photos/seed/developer/600/420"
-                alt="Developer portrait"
+                alt={t.about.imageAlt}
                 style={{
                   width: '100%',
                   height: '420px',
@@ -123,11 +116,11 @@ export default function About() {
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: 'var(--color-muted)', fontSize: '0.85rem' }}>
                     <MapPin size={14} color="var(--color-primary)" />
-                    <span>Berlin, Germany</span>
+                    <span>{t.about.location}</span>
                   </div>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: 'var(--color-muted)', fontSize: '0.85rem' }}>
                     <Coffee size={14} color="var(--color-accent)" />
-                    <span>Coffee-powered</span>
+                    <span>{t.about.coffeePowered}</span>
                   </div>
                 </div>
               </div>
@@ -149,7 +142,7 @@ export default function About() {
             >
               <div style={{ width: '10px', height: '10px', borderRadius: '50%', background: '#22c55e', boxShadow: '0 0 8px #22c55e' }} />
               <span style={{ fontFamily: 'var(--font-heading)', fontWeight: 600, fontSize: '0.85rem', color: 'var(--color-text)' }}>
-                Open to Work
+                {t.about.openToWork}
               </span>
             </div>
           </div>

@@ -1,8 +1,12 @@
 import { useEffect, useState } from 'react'
 import { Menu, X } from 'lucide-react'
-import { navLinks } from '../data/portfolioData'
+import { useI18n } from '../i18n/useI18n'
+import type { Language } from '../i18n/translations'
+
+const languages: Language[] = ['ru', 'en']
 
 export default function Navbar() {
+  const { language, setLanguage, t } = useI18n()
   const [scrolled, setScrolled] = useState(false)
   const [activeSection, setActiveSection] = useState('')
   const [menuOpen, setMenuOpen] = useState(false)
@@ -32,6 +36,34 @@ export default function Navbar() {
     if (el) el.scrollIntoView({ behavior: 'smooth' })
   }
 
+  const renderLanguageButton = (code: Language) => {
+    const isActive = language === code
+
+    return (
+      <button
+        key={code}
+        type="button"
+        onClick={() => setLanguage(code)}
+        aria-pressed={isActive}
+        style={{
+          border: '1px solid var(--color-border)',
+          cursor: 'pointer',
+          padding: '6px 10px',
+          borderRadius: '8px',
+          fontFamily: 'var(--font-heading)',
+          fontWeight: 600,
+          fontSize: '0.75rem',
+          textTransform: 'uppercase',
+          color: isActive ? 'var(--color-primary)' : 'var(--color-muted)',
+          background: isActive ? 'var(--color-primary-dim)' : 'transparent',
+          transition: 'all 0.2s ease',
+        }}
+      >
+        {code}
+      </button>
+    )
+  }
+
   return (
     <nav
       style={{
@@ -56,13 +88,13 @@ export default function Navbar() {
             onClick={(e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }) }}
             style={{ fontFamily: 'var(--font-heading)', fontWeight: 700, fontSize: '1.25rem', letterSpacing: '-0.02em' }}
           >
-            <span className="gradient-text">Alex</span>
-            <span style={{ color: 'var(--color-text)' }}>Johnson</span>
+            <span className="gradient-text">{t.profile.firstName}</span>
+            <span style={{ color: 'var(--color-text)' }}>{t.profile.lastName}</span>
           </a>
 
           {/* Desktop links */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }} className="desktop-nav">
-            {navLinks.map((link) => {
+            {t.navLinks.map((link) => {
               const isActive = activeSection === link.href.slice(1)
               return (
                 <button
@@ -91,12 +123,18 @@ export default function Navbar() {
                 </button>
               )
             })}
+            <div
+              style={{ display: 'flex', alignItems: 'center', gap: '6px', marginLeft: '6px' }}
+              aria-label={t.navbar.languageLabel}
+            >
+              {languages.map(renderLanguageButton)}
+            </div>
             <button
               className="btn-primary"
               style={{ marginLeft: '8px', padding: '9px 22px', fontSize: '0.875rem' }}
               onClick={() => handleNavClick('#contact')}
             >
-              Hire Me
+              {t.navbar.hireMe}
             </button>
           </div>
 
@@ -112,7 +150,7 @@ export default function Navbar() {
               padding: '8px',
             }}
             className="mobile-menu-btn"
-            aria-label="Toggle menu"
+            aria-label={t.navbar.toggleMenuAria}
           >
             {menuOpen ? <X size={22} /> : <Menu size={22} />}
           </button>
@@ -129,7 +167,10 @@ export default function Navbar() {
             padding: '16px 24px 24px',
           }}
         >
-          {navLinks.map((link) => (
+          <div style={{ display: 'flex', gap: '8px', marginBottom: '16px' }}>
+            {languages.map(renderLanguageButton)}
+          </div>
+          {t.navLinks.map((link) => (
             <button
               key={link.href}
               onClick={() => handleNavClick(link.href)}
@@ -156,7 +197,7 @@ export default function Navbar() {
             style={{ marginTop: '16px', width: '100%', justifyContent: 'center' }}
             onClick={() => handleNavClick('#contact')}
           >
-            Hire Me
+            {t.navbar.hireMe}
           </button>
         </div>
       )}

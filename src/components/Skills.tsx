@@ -4,36 +4,37 @@ import {
   Cpu, Box, Layers
 } from 'lucide-react'
 import { skills } from '../data/portfolioData'
+import { useI18n } from '../i18n/useI18n'
 
 const skillIcons: Record<string, React.FC<{ size?: number; color?: string }>> = {
-  'React': Code2,
-  'TypeScript': Cpu,
+  React: Code2,
+  TypeScript: Cpu,
   'Next.js': Globe,
   'Vue.js': Layers,
   'Tailwind CSS': LayoutDashboard,
   'Framer Motion': Zap,
   'Node.js': Server,
-  'Python': Terminal,
-  'PostgreSQL': Database,
-  'MongoDB': Database,
-  'GraphQL': Box,
-  'Redis': Server,
-  'Docker': Container,
-  'AWS': Cloud,
-  'Git': GitBranch,
-  'Figma': Figma,
-  'Kubernetes': Wrench,
+  Python: Terminal,
+  PostgreSQL: Database,
+  MongoDB: Database,
+  GraphQL: Box,
+  Redis: Server,
+  Docker: Container,
+  AWS: Cloud,
+  Git: GitBranch,
+  Figma: Figma,
+  Kubernetes: Wrench,
   'CI/CD': Wrench,
 }
 
 const categoryColors: Record<string, { bg: string; color: string; border: string; glow: string }> = {
-  'Frontend': {
+  Frontend: {
     bg: 'var(--color-primary-dim)',
     color: 'var(--color-primary)',
     border: 'rgba(100, 224, 240, 0.2)',
     glow: 'rgba(100, 224, 240, 0.1)',
   },
-  'Backend': {
+  Backend: {
     bg: 'var(--color-accent-dim)',
     color: 'var(--color-accent)',
     border: 'rgba(167, 139, 250, 0.2)',
@@ -50,6 +51,8 @@ const categoryColors: Record<string, { bg: string; color: string; border: string
 const categories = ['Frontend', 'Backend', 'Tools & Cloud'] as const
 
 export default function Skills() {
+  const { t } = useI18n()
+
   return (
     <section id="skills" style={{ padding: '120px 24px' }}>
       <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
@@ -57,15 +60,15 @@ export default function Skills() {
         <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '16px' }}>
           <div style={{ width: '40px', height: '2px', background: 'var(--color-primary)' }} />
           <span style={{ color: 'var(--color-primary)', fontFamily: 'var(--font-heading)', fontWeight: 600, fontSize: '0.85rem', letterSpacing: '0.1em', textTransform: 'uppercase' }}>
-            Skills
+            {t.skills.section}
           </span>
         </div>
         <h2 className="section-heading" style={{ marginBottom: '16px' }}>
-          My tech{' '}
-          <span className="gradient-text">toolbox</span>
+          {t.skills.headingStart}{' '}
+          <span className="gradient-text">{t.skills.headingAccent}</span>
         </h2>
         <p style={{ fontFamily: 'var(--font-body)', fontWeight: 300, color: 'var(--color-muted)', fontSize: '1.05rem', maxWidth: '520px', marginBottom: '64px', lineHeight: 1.7 }}>
-          Technologies and tools I use to bring ideas to life — from frontend interfaces to backend infrastructure.
+          {t.skills.description}
         </p>
 
         {/* Category sections */}
@@ -88,7 +91,7 @@ export default function Skills() {
                       border: `1px solid ${colors.border}`,
                     }}
                   >
-                    {category}
+                    {t.skills.categories[category]}
                   </span>
                   <div style={{ flex: 1, height: '1px', background: 'var(--color-border)' }} />
                 </div>

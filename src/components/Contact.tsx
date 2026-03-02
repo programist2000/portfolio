@@ -1,10 +1,6 @@
 import { useState, type FormEvent } from 'react'
 import { Mail, MapPin, Github, Linkedin, Twitter, Send, CheckCircle } from 'lucide-react'
-
-const contactInfo = [
-  { icon: Mail, label: 'Email', value: 'alex@example.com', href: 'mailto:alex@example.com' },
-  { icon: MapPin, label: 'Location', value: 'Berlin, Germany', href: null },
-]
+import { useI18n } from '../i18n/useI18n'
 
 const socials = [
   { icon: Github, label: 'GitHub', href: 'https://github.com' },
@@ -13,9 +9,15 @@ const socials = [
 ]
 
 export default function Contact() {
+  const { t } = useI18n()
   const [form, setForm] = useState({ name: '', email: '', message: '' })
   const [submitted, setSubmitted] = useState(false)
   const [focused, setFocused] = useState<string | null>(null)
+
+  const contactInfo = [
+    { icon: Mail, label: t.contact.infoLabels.email, value: t.contact.infoValues.email, href: `mailto:${t.contact.infoValues.email}` },
+    { icon: MapPin, label: t.contact.infoLabels.location, value: t.contact.infoValues.location, href: null },
+  ]
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault()
@@ -46,16 +48,16 @@ export default function Contact() {
         <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '16px' }}>
           <div style={{ width: '40px', height: '2px', background: 'var(--color-primary)' }} />
           <span style={{ color: 'var(--color-primary)', fontFamily: 'var(--font-heading)', fontWeight: 600, fontSize: '0.85rem', letterSpacing: '0.1em', textTransform: 'uppercase' }}>
-            Contact
+            {t.contact.section}
           </span>
         </div>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '64px', flexWrap: 'wrap', gap: '16px' }}>
           <h2 className="section-heading">
-            Let's work{' '}
-            <span className="gradient-text">together</span>
+            {t.contact.headingStart}{' '}
+            <span className="gradient-text">{t.contact.headingAccent}</span>
           </h2>
           <p style={{ fontFamily: 'var(--font-body)', fontWeight: 300, color: 'var(--color-muted)', maxWidth: '380px', lineHeight: 1.7, fontSize: '1rem' }}>
-            Have a project in mind or just want to say hi? I'm always open to discussing new opportunities.
+            {t.contact.intro}
           </p>
         </div>
 
@@ -66,10 +68,10 @@ export default function Contact() {
               <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '300px', gap: '16px', textAlign: 'center' }}>
                 <CheckCircle size={48} color="var(--color-primary)" />
                 <h3 style={{ fontFamily: 'var(--font-heading)', fontWeight: 700, fontSize: '1.4rem', color: 'var(--color-text)' }}>
-                  Message sent!
+                  {t.contact.successTitle}
                 </h3>
                 <p style={{ color: 'var(--color-muted)', fontWeight: 300 }}>
-                  Thanks for reaching out. I'll get back to you within 24 hours.
+                  {t.contact.successText}
                 </p>
               </div>
             ) : (
@@ -77,12 +79,12 @@ export default function Contact() {
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }} className="form-row">
                   <div>
                     <label style={{ display: 'block', fontFamily: 'var(--font-heading)', fontWeight: 600, fontSize: '0.82rem', color: 'var(--color-muted)', marginBottom: '8px', letterSpacing: '0.03em' }}>
-                      Your Name
+                      {t.contact.nameLabel}
                     </label>
                     <input
                       type="text"
                       required
-                      placeholder="John Doe"
+                      placeholder={t.contact.namePlaceholder}
                       value={form.name}
                       onChange={(e) => setForm({ ...form, name: e.target.value })}
                       onFocus={() => setFocused('name')}
@@ -92,12 +94,12 @@ export default function Contact() {
                   </div>
                   <div>
                     <label style={{ display: 'block', fontFamily: 'var(--font-heading)', fontWeight: 600, fontSize: '0.82rem', color: 'var(--color-muted)', marginBottom: '8px', letterSpacing: '0.03em' }}>
-                      Email Address
+                      {t.contact.emailLabel}
                     </label>
                     <input
                       type="email"
                       required
-                      placeholder="john@example.com"
+                      placeholder={t.contact.emailPlaceholder}
                       value={form.email}
                       onChange={(e) => setForm({ ...form, email: e.target.value })}
                       onFocus={() => setFocused('email')}
@@ -109,11 +111,11 @@ export default function Contact() {
 
                 <div>
                   <label style={{ display: 'block', fontFamily: 'var(--font-heading)', fontWeight: 600, fontSize: '0.82rem', color: 'var(--color-muted)', marginBottom: '8px', letterSpacing: '0.03em' }}>
-                    Message
+                    {t.contact.messageLabel}
                   </label>
                   <textarea
                     required
-                    placeholder="Tell me about your project..."
+                    placeholder={t.contact.messagePlaceholder}
                     rows={6}
                     value={form.message}
                     onChange={(e) => setForm({ ...form, message: e.target.value })}
@@ -124,7 +126,7 @@ export default function Contact() {
                 </div>
 
                 <button type="submit" className="btn-primary" style={{ alignSelf: 'flex-start', padding: '13px 32px' }}>
-                  Send Message
+                  {t.contact.sendMessage}
                   <Send size={15} />
                 </button>
               </form>
@@ -176,7 +178,7 @@ export default function Contact() {
             {/* Socials */}
             <div className="glass-card" style={{ padding: '24px' }}>
               <p style={{ fontFamily: 'var(--font-heading)', fontWeight: 600, fontSize: '0.82rem', color: 'var(--color-muted)', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '16px' }}>
-                Find me online
+                {t.contact.findOnline}
               </p>
               <div style={{ display: 'flex', gap: '12px' }}>
                 {socials.map(({ icon: Icon, label, href }) => (
@@ -231,7 +233,8 @@ export default function Contact() {
             >
               <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#22c55e', boxShadow: '0 0 8px #22c55e', flexShrink: 0 }} />
               <span style={{ fontFamily: 'var(--font-body)', fontSize: '0.875rem', color: 'var(--color-muted)', lineHeight: 1.5 }}>
-                Usually responds within <strong style={{ color: 'var(--color-text)' }}>24 hours</strong>
+                {t.contact.responsePrefix}{' '}
+                <strong style={{ color: 'var(--color-text)' }}>{t.contact.responseHighlight}</strong>
               </span>
             </div>
           </div>

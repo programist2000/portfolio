@@ -1,7 +1,24 @@
 import { ExternalLink, Github } from 'lucide-react'
 import { projects, type Project } from '../data/portfolioData'
+import { useI18n } from '../i18n/useI18n'
 
-function ProjectCard({ project, wide = false }: { project: Project; wide?: boolean }) {
+function ProjectCard({
+  project,
+  wide = false,
+  title,
+  description,
+  featuredLabel,
+  codeLabel,
+  liveDemoLabel,
+}: {
+  project: Project
+  wide?: boolean
+  title: string
+  description: string
+  featuredLabel: string
+  codeLabel: string
+  liveDemoLabel: string
+}) {
   return (
     <div
       className="glass-card"
@@ -30,7 +47,7 @@ function ProjectCard({ project, wide = false }: { project: Project; wide?: boole
       <div style={{ position: 'relative', overflow: 'hidden', flexShrink: 0, height: wide ? '100%' : '220px', width: wide ? '45%' : '100%' }} className="project-img-wrap">
         <img
           src={project.image}
-          alt={project.title}
+          alt={title}
           style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block', transition: 'transform 0.4s ease' }}
           onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.transform = 'scale(1.05)' }}
           onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.transform = 'scale(1)' }}
@@ -62,7 +79,7 @@ function ProjectCard({ project, wide = false }: { project: Project; wide?: boole
               backdropFilter: 'blur(8px)',
             }}
           >
-            ★ Featured
+            {featuredLabel}
           </div>
         )}
       </div>
@@ -78,10 +95,10 @@ function ProjectCard({ project, wide = false }: { project: Project; wide?: boole
             letterSpacing: '-0.02em',
           }}
         >
-          {project.title}
+          {title}
         </h3>
         <p style={{ fontFamily: 'var(--font-body)', fontWeight: 300, fontSize: '0.9rem', lineHeight: 1.7, color: 'var(--color-muted)', flex: 1 }}>
-          {project.description}
+          {description}
         </p>
 
         {/* Tags */}
@@ -110,7 +127,7 @@ function ProjectCard({ project, wide = false }: { project: Project; wide?: boole
             onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.color = 'var(--color-primary)' }}
             onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.color = 'var(--color-muted)' }}
           >
-            <Github size={15} /> Code
+            <Github size={15} /> {codeLabel}
           </a>
           <a
             href={project.liveUrl}
@@ -129,7 +146,7 @@ function ProjectCard({ project, wide = false }: { project: Project; wide?: boole
             onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.color = 'var(--color-primary)' }}
             onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.color = 'var(--color-muted)' }}
           >
-            <ExternalLink size={15} /> Live Demo
+            <ExternalLink size={15} /> {liveDemoLabel}
           </a>
         </div>
       </div>
@@ -138,8 +155,15 @@ function ProjectCard({ project, wide = false }: { project: Project; wide?: boole
 }
 
 export default function Projects() {
+  const { t } = useI18n()
   const featured = projects.filter((p) => p.featured)
   const rest = projects.filter((p) => !p.featured)
+
+  const getLocalizedText = (project: Project) => {
+    const localized = t.projects.items[project.id as keyof typeof t.projects.items]
+    if (!localized) return { title: project.title, description: project.description }
+    return { title: localized.title, description: localized.description }
+  }
 
   return (
     <section id="projects" style={{ padding: '120px 24px', background: 'rgba(15, 22, 41, 0.4)' }}>
@@ -148,13 +172,13 @@ export default function Projects() {
         <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '16px' }}>
           <div style={{ width: '40px', height: '2px', background: 'var(--color-primary)' }} />
           <span style={{ color: 'var(--color-primary)', fontFamily: 'var(--font-heading)', fontWeight: 600, fontSize: '0.85rem', letterSpacing: '0.1em', textTransform: 'uppercase' }}>
-            Projects
+            {t.projects.section}
           </span>
         </div>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '56px', flexWrap: 'wrap', gap: '16px' }}>
           <h2 className="section-heading">
-            Things I've{' '}
-            <span className="gradient-text">built</span>
+            {t.projects.headingStart}{' '}
+            <span className="gradient-text">{t.projects.headingAccent}</span>
           </h2>
           <a
             href="https://github.com"
@@ -164,7 +188,7 @@ export default function Projects() {
             style={{ display: 'inline-flex' }}
           >
             <Github size={16} />
-            All Projects
+            {t.projects.allProjects}
           </a>
         </div>
 
@@ -178,10 +202,26 @@ export default function Projects() {
           className="projects-grid"
         >
           {featured.map((p) => (
-            <ProjectCard key={p.id} project={p} wide={true} />
+            <ProjectCard
+              key={p.id}
+              project={p}
+              wide={true}
+              {...getLocalizedText(p)}
+              featuredLabel={t.projects.featured}
+              codeLabel={t.projects.code}
+              liveDemoLabel={t.projects.liveDemo}
+            />
           ))}
           {rest.map((p) => (
-            <ProjectCard key={p.id} project={p} wide={false} />
+            <ProjectCard
+              key={p.id}
+              project={p}
+              wide={false}
+              {...getLocalizedText(p)}
+              featuredLabel={t.projects.featured}
+              codeLabel={t.projects.code}
+              liveDemoLabel={t.projects.liveDemo}
+            />
           ))}
         </div>
       </div>
